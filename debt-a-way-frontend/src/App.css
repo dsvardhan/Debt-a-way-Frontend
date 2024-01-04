@@ -1,0 +1,536 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333; /* Customize the background color as needed */
+  color: #fff; /* Customize the text color as needed */
+  padding: 10px;
+}
+
+.navbar-logo {
+  font-size: 24px; /* Customize the font size as needed */
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links-left {
+  margin-right: auto; /* Push the links to the left */
+}
+
+.navbar-links-right {
+  margin-left: auto; /* Push the Logout button to the right */
+}
+
+.navbar-links a {
+  color: #fff; /* Customize link text color */
+  text-decoration: none;
+  margin-right: 20px; /* Adjust the spacing between links */
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff; /* Customize button text color */
+  text-decoration: underline; /* Make the button look like a link */
+  font-size: inherit; /* Inherit font size from parent */
+  padding: 0;
+}
+
+.logout-button:hover {
+  text-decoration: none; /* Remove underline on hover */
+}
+
+
+
+/* Container for tiles */
+.tiles-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+/* Individual tile */
+.tile {
+  background-color: #f7f7f7;
+  padding: 40px;
+  margin: 0px 20px 0px 20px ;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+  flex-basis: calc(33% - 20px); /* Adjust width here */
+}
+
+.tile:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Tile title */
+.tile-title {
+  font-size: 0.9em;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+/* Tile number */
+.tile-number {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #007bff; /* Adjust color if needed */
+}
+
+
+
+.add-money {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.add-money input {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.add-money button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-money button:hover {
+  background-color:  #0056b3;
+}
+
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  overflow-x: auto; /* Allows table to scroll on small screens */
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f0f0f0;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+.table button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #007bff; /* Blue color for example */
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.table button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+
+.post-debt {
+  background-color: #f7f7f7;
+  padding: 20px;
+  margin: 20px auto; /* Centered with automatic margin */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+}
+
+.post-debt input, .post-debt select, .post-debt textarea, .post-debt button {
+  
+  padding: 10px;
+  margin: 20px 0px 0px 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.post-debt button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.post-debt button:hover {
+  background-color: #0056b3;
+}
+
+.section-heading {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.full-width-container {
+  width: 100%;
+  padding: 0 20px; /* Add padding but make sure it doesn't cause overflow */
+  box-sizing: border-box; /* Include padding in the width calculation */
+  margin: 0 auto;
+}
+
+
+@media screen and (max-width: 768px) {
+  .full-width-container {
+    padding: 0 10px;
+  }
+
+  .navbar-links a, .navbar-links button {
+    font-size: 0.9em;
+    margin-left: 10px;
+  }
+
+  /* Adjust other elements as needed */
+}
+
+
+
+/*Debts Owed*/
+.debts-owed-heading {
+  font-size: 1.5em;
+  color: #333; /* Or any color that suits your design */
+  margin-bottom: 20px;
+}
+
+.debts-owed-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.debts-owed-table th, .debts-owed-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.debts-owed-table th {
+  background-color: #f0f0f0;
+}
+
+.debts-owed-table tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+.pay-button {
+  padding: 5px 10px;
+  background-color: #007bff; /* Green color for 'Pay' button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pay-button:hover {
+  background-color:  #0056b3; /* Darker green on hover */
+}
+
+.trade-modal-content {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #000000; /* Defined border */
+  width: 50%; /* Smaller width */
+  max-width: 400px; /* Maximum width */
+}
+
+.trade-modal-header {
+  font-size: 1.2em; /* Smaller font size */
+  margin-bottom: 10px;
+}
+
+.trade-modal-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.trade-modal-button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.trade-modal-button-primary {
+  background-color: #007bff;
+  color: white;
+  margin: 5px;
+}
+
+.trade-modal-button-primary:hover {
+  background-color: #0056b3;
+}
+
+.trade-modal-button-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.trade-modal-button-secondary:hover {
+  background-color: #545b62;
+}
+
+
+.Modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+
+.add-to-wallet-container {
+  background-color: #f7f7f7;
+  padding: 20px;
+  margin: 20px 20px 0px 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-to-wallet-container h3 {
+  margin-bottom: 15px;
+  font-size: 1.4em;
+}
+
+.add-to-wallet-container input {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  /*width: calc(100% - 22px); /* Adjust width to align with the button */
+}
+
+.add-to-wallet-container button {
+  padding: 10px 20px;
+  margin:20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.add-to-wallet-container button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 600px) {
+  .add-to-wallet-container input,
+  .add-to-wallet-container button {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+
+/* .auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  min-height: 100vh;
+}
+
+.login-section, .register-section {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-section {
+  background-color: #f7f7f7;
+}
+
+.register-section {
+  background-color: #e9ecef;
+}
+
+/* Style for form elements */
+/*form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input[type="email"], input[type="password"], input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.ln-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 50%;
+}
+
+.ln-button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .auth-container {
+    flex-direction: column;
+  }
+} */
+
+/* Split the screen vertically for login and register */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  min-height: 100vh;
+  /*max-width: 800px; /* Adjust the width as needed */
+  margin: 0 auto;
+}
+
+.login-section, .register-section {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-section {
+  background-color: #f7f7f7;
+  border-right: 2px solid #ddd; /* Separator between login and register */
+}
+
+.register-section {
+  background-color: #e9ecef;
+}
+
+/* Style for form elements */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input[type="email"], input[type="password"], input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.ln-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 50%;
+}
+
+.ln-button:hover {
+  background-color: #0056b3;
+}
+
+/* Add headings */
+.login-section h2, .register-section h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .auth-container {
+    flex-direction: column;
+  }
+
+  .login-section, .register-section {
+    border-right: none;
+    border-bottom: 2px solid #ddd;
+  }
+}
+
+
