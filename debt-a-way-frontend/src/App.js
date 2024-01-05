@@ -27,10 +27,10 @@ function App() {
       <Routes>
         <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
         <Route path="/login" element={<LoginRegister />} />
-        <Route path="/home" element={<Home token={userToken}/>} />
-        <Route path="/debts-owed" element={<DebtsOwed token={userToken} />} />
-        <Route path="/debts-receivable" element={<DebtsReceivable token={userToken}/>} />
-        <Route path="/wallet" element={<Wallet token={userToken}/>} />
+        <Route path="/home" element={<Home/>} />
+        <Route path="/debts-owed" element={<DebtsOwed/>} />
+        <Route path="/debts-receivable" element={<DebtsReceivable/>} />
+        <Route path="/wallet" element={<Wallet/>} />
         {/* Define other routes as needed */}
       </Routes>
     </Router>

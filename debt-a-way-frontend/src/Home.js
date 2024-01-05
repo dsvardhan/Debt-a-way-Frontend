@@ -3,7 +3,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 //import jwtDecode from 'jwt-decode';
 
-function Home({ token }) {
+function Home() {
   const [walletBalance, setWalletBalance] = useState(0);
   const [debtsOwed, setDebtsOwed] = useState(0);
   const [debtsReceivable, setDebtsReceivable] = useState(0);
@@ -15,9 +15,12 @@ function Home({ token }) {
 // Add more states as needed for other debt details
 
 
+  const token = localStorage.getItem('userToken');
+  
   const decodedToken = jwtDecode(token);
   const userId = decodedToken._id;
   
+
   useEffect(() => {
     fetchWalletBalance();
     fetchDebts();
@@ -138,7 +141,7 @@ function Home({ token }) {
      </ div>
 
      <div className="full-width-container">
-     <h3 className="section-heading">Post a New Debt</h3>
+     <h3 >Post a New Debt</h3>
       <div className="post-debt">
         
         <input

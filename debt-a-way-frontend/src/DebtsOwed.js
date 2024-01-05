@@ -2,16 +2,23 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
-const DebtsOwed = ({token}) => {
+// const token = localStorage.getItem('userToken');
+  
+// const decodedToken = jwtDecode(token);
+// const userId = decodedToken._id;
+
+const DebtsOwed = () => {
   const [debtsOwedByUser, setDebtsOwedByUsers] = useState([]);
   const [debtsHistory, setDebtsHistory] = useState([]);
+
+  const token = localStorage.getItem('userToken');
   const decodedToken = jwtDecode(token);
-  const userId = decodedToken._id;
+    const userId = decodedToken._id;
 
   useEffect(() => {
     fetchDebtsOwed();
     fetchOwedHistory();
-  }, [userId, token]);
+  }, []);
 
   const fetchDebtsOwed = async () => {
     try {

@@ -3,16 +3,20 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
 
-
+// const token = localStorage.getItem('userToken');
+  
+//   const decodedToken = jwtDecode(token);
+//   const userId = decodedToken._id;
   
 
-const Wallet = ({token}) => {
+const Wallet = () => {
   const [balance, setBalance] = useState(0);
   const [transactions, setTransactions] = useState([]);
   const [debtsOwed, setDebtsOwed] = useState(0);
   const [debtsReceivable, setDebtsReceivable] = useState(0);
   const [addAmount, setAddAmount] = useState('');
 
+  const token = localStorage.getItem('userToken');
   const decodedToken = jwtDecode(token);
   const userId = decodedToken._id;
 

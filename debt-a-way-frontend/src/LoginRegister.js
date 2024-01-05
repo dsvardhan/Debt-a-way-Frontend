@@ -118,16 +118,19 @@ function LoginRegister() {
         const regResponse = await axios.post('https://debt-a-way.onrender.com/api/users/register', registerCredentials);
         
         if(regResponse.data.user){
-          const response = await axios.post('https://debt-a-way.onrender.com/api/users/login', loginCredentials);
-          if (response.data.token) {
-            localStorage.setItem('userToken', response.data.token);
-            navigate('/home');
-          }
-        }
-    } catch (error) {
-        console.error(error);
-        // Handle registration errors (e.g., user already exists, server error)
+          const loginResponse = await axios.post('https://debt-a-way.onrender.com/api/users/login', {
+        email: registerCredentials.email,
+        password: registerCredentials.password
+      });
+      if (loginResponse.data.token) {
+        localStorage.setItem('userToken', loginResponse.data.token);
+        navigate('/home');
+      }
     }
+  } catch (error) {
+    console.error(error);
+    // Handle registration errors (e.g., user already exists, server error)
+  }
 };
 
   return (

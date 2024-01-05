@@ -9,17 +9,28 @@ import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
-const DebtsReceivable = ({ token }) => {
+
+  
+//   const decodedToken = jwtDecode(token);
+//   const userId = decodedToken._id;
+
+const DebtsReceivable = () => {
   const [debtsOwedToUser, setDebtsOwedToUser] = useState([]);
   const [debtsHistory, setDebtsHistory] = useState([]);
   const [isTradeModalOpen, setIsTradeModalOpen] = useState(false);
   const [selectedDebtForTrade, setSelectedDebtForTrade] = useState(null);
   const [tradePrice, setTradePrice] = useState('');
 
-  const decodedToken = jwtDecode(token);
-  const userId = decodedToken._id;
+//   const decodedToken = jwtDecode(token);
+//   const userId = decodedToken._id;
 
   useEffect(() => {
+
+    const token = localStorage.getItem('userToken');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken._id;
+  
+
     const fetchDebtsReceivable = async () => {
 
         
@@ -33,7 +44,7 @@ const DebtsReceivable = ({ token }) => {
 
     fetchDebtsReceivable();
     fetchReceivedHistory();
-  }, []);
+//   }, []);
 
   const fetchReceivedHistory=async()=>{
     try {
@@ -44,16 +55,16 @@ const DebtsReceivable = ({ token }) => {
         console.error('Error fetching debts owed:', error);
       }
   }
-  const handleOpenTradeModal = (debtId) => {
-    setSelectedDebtForTrade(debtId);
-    setIsTradeModalOpen(true);
-  };
+//   const handleOpenTradeModal = (debtId) => {
+//     setSelectedDebtForTrade(debtId);
+//     setIsTradeModalOpen(true);
+//   };
 
-  const handleCloseTradeModal = () => {
-    setIsTradeModalOpen(false);
-    setSelectedDebtForTrade(null);
-    setTradePrice('');
-  };
+//   const handleCloseTradeModal = () => {
+//     setIsTradeModalOpen(false);
+//     setSelectedDebtForTrade(null);
+//     setTradePrice('');
+//   };
 
   const handleTradeDebt = async () => {
     if (!tradePrice) {
@@ -70,6 +81,36 @@ const DebtsReceivable = ({ token }) => {
     } catch (error) {
       console.error('Error trading debt:', error);
     }
+  };
+
+}, []);
+
+const handleTradeDebt = async () => {
+    if (!tradePrice) {
+      alert('Please enter a trade price');
+      return;
+    }
+
+    try {
+      await axios.patch(`https://debt-a-way.onrender.com/api/debt-postings/trade-debt/${selectedDebtForTrade}`, 
+        { tradePrice } // Replace 'your_token' with actual token
+      );
+      handleCloseTradeModal();
+      // Refresh your debts list here
+    } catch (error) {
+      console.error('Error trading debt:', error);
+    }
+  };
+
+const handleOpenTradeModal = (debtId) => {
+    setSelectedDebtForTrade(debtId);
+    setIsTradeModalOpen(true);
+  };
+
+  const handleCloseTradeModal = () => {
+    setIsTradeModalOpen(false);
+    setSelectedDebtForTrade(null);
+    setTradePrice('');
   };
 
   return (
