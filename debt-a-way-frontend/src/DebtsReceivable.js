@@ -31,30 +31,30 @@ const DebtsReceivable = () => {
     const userId = decodedToken._id;
   
 
-    const fetchDebtsReceivable = async () => {
+    // const fetchDebtsReceivable = async () => {
 
         
-      try {
-        const response = await axios.get(`https://debt-a-way.onrender.com/api/debt-postings/debts-owed-to/${userId}`);
-        setDebtsOwedToUser(response.data);
-      } catch (error) {
-        console.error('Error fetching debts owed:', error);
-      }
-    };
+    //   try {
+    //     const response = await axios.get(`https://debt-a-way.onrender.com/api/debt-postings/debts-owed-to/${userId}`);
+    //     setDebtsOwedToUser(response.data);
+    //   } catch (error) {
+    //     console.error('Error fetching debts owed:', error);
+    //   }
+    // };
 
-    fetchDebtsReceivable();
-    fetchReceivedHistory();
+    fetchDebtsReceivable(userId);
+    fetchReceivedHistory(userId);
 //   }, []);
 
-  const fetchReceivedHistory=async()=>{
-    try {
-        const response = await axios.get(`https://debt-a-way.onrender.com/api/debt-postings/debts-history/${userId}`);
-        setDebtsHistory(response.data.filter(debt => debt.lender._id === userId)); // Filter the debts where user is the borrower
-        //setDebtsHistory(response.data); // Set the full history
-      } catch (error) {
-        console.error('Error fetching debts owed:', error);
-      }
-  }
+//   const fetchReceivedHistory=async()=>{
+//     try {
+//         const response = await axios.get(`https://debt-a-way.onrender.com/api/debt-postings/debts-history/${userId}`);
+//         setDebtsHistory(response.data.filter(debt => debt.lender._id === userId)); // Filter the debts where user is the borrower
+//         //setDebtsHistory(response.data); // Set the full history
+//       } catch (error) {
+//         console.error('Error fetching debts owed:', error);
+//       }
+//   }
 //   const handleOpenTradeModal = (debtId) => {
 //     setSelectedDebtForTrade(debtId);
 //     setIsTradeModalOpen(true);
@@ -66,24 +66,55 @@ const DebtsReceivable = () => {
 //     setTradePrice('');
 //   };
 
-  const handleTradeDebt = async () => {
-    if (!tradePrice) {
-      alert('Please enter a trade price');
-      return;
-    }
+//   const handleTradeDebt = async () => {
+//     if (!tradePrice) {
+//       alert('Please enter a trade price');
+//       return;
+//     }
 
-    try {
-      await axios.patch(`https://debt-a-way.onrender.com/api/debt-postings/trade-debt/${selectedDebtForTrade}`, 
-        { tradePrice } // Replace 'your_token' with actual token
-      );
-      handleCloseTradeModal();
-      // Refresh your debts list here
-    } catch (error) {
-      console.error('Error trading debt:', error);
-    }
-  };
+//     try {
+//       await axios.patch(`https://debt-a-way.onrender.com/api/debt-postings/trade-debt/${selectedDebtForTrade}`, 
+//         { tradePrice } // Replace 'your_token' with actual token
+//       );
+//       handleCloseTradeModal();
+//       // Refresh your debts list here
+//     } catch (error) {
+//       console.error('Error trading debt:', error);
+//     }
+//   };
 
 }, []);
+
+// const fetchReceivedHistory=async()=>{
+//     try {
+//         const response = await axios.get(`https://debt-a-way.onrender.com/api/debt-postings/debts-history/${userId}`);
+//         setDebtsHistory(response.data.filter(debt => debt.lender._id === userId)); // Filter the debts where user is the borrower
+//         //setDebtsHistory(response.data); // Set the full history
+//       } catch (error) {
+//         console.error('Error fetching debts owed:', error);
+//       }
+//   }
+
+const fetchDebtsReceivable = async (userId) => {
+
+        
+      try {
+        const response = await axios.get(`https://debt-a-way.onrender.com/api/debt-postings/debts-owed-to/${userId}`);
+        setDebtsOwedToUser(response.data);
+      } catch (error) {
+        console.error('Error fetching debts owed:', error);
+    }
+};
+
+const fetchReceivedHistory=async(userId)=>{
+    try {
+        const response = await axios.get(`https://debt-a-way.onrender.com/api/debt-postings/debts-history/${userId}`);
+        setDebtsHistory(response.data.filter(debt => debt.lender._id === userId)); // Filter the debts where user is the borrower
+        //setDebtsHistory(response.data); // Set the full history
+      } catch (error) {
+        console.error('Error fetching debts owed:', error);
+      }
+}
 
 const handleTradeDebt = async () => {
     if (!tradePrice) {
