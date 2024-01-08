@@ -46,9 +46,7 @@ const Wallet = () => {
 
   const fetchTransactions = async () => {
     try {
-        const response = await axios.get('https://debt-a-way.onrender.com/api/transaction-logs', {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const response = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/transaction-logs');
         setTransactions(response.data);
     } catch (error) {
         console.error('Error fetching transactions:', error);
