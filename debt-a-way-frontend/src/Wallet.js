@@ -47,7 +47,14 @@ const Wallet = () => {
   const fetchTransactions = async () => {
     try {
         const response = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/transaction-logs');
-        setTransactions(response.data);
+        
+        const relevantTransactions = response.data.filter(log =>
+          (log.transactionType === 'lend' && log.userId === userId) ||
+          (log.transactionType === 'borrow' && log.userId === userId)
+        );
+        setTransactions(relevantTransactions);
+        
+        //setTransactions(response.data);
     } catch (error) {
         console.error('Error fetching transactions:', error);
     }
@@ -102,30 +109,31 @@ const Wallet = () => {
 
 
         <div className="transaction-logs-container">
-                <h3>Transaction Logs</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Direction</th>
-                            <th>Amount</th>
-                            <th>Other Party</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {transactions.map((transaction, index) => (
-                            <tr key={index}>
-                                <td>{new Date(transaction.date).toLocaleDateString()}</td>
-                                <td>{transaction.type}</td>
-                                <td>{transaction.direction}</td>
-                                <td>${transaction.amount}</td>
-                                <td>{transaction.otherParty}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+        <h3>Transaction Logs</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Direction</th>
+              <th>Amount</th>
+              <th>Other Party</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transactions.map((transaction, index) => (
+              <tr key={index}>
+                <td>{new Date(transaction.date).toLocaleDateString()}</td>
+                <td>{transaction.type}</td>
+                <td>{transaction.direction}</td>
+                <td>${transaction.amount}</td>
+                <td>{transaction.otherParty}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+        
     </div>
   );
 };
