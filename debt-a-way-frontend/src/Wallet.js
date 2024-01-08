@@ -24,7 +24,7 @@ const Wallet = () => {
     fetchWalletBalance();
     fetchDebtsOwed();
     fetchDebtsReceivable();
-    // Fetch wallet balance and transactions
+    fetchTransactions(); // Fetch wallet balance and transactions
   }, []);
 
   const fetchWalletBalance = async () => {
@@ -43,6 +43,18 @@ const Wallet = () => {
     const totalReceivable = response.data.reduce((acc, debt) => acc + debt.amount, 0);
     setDebtsReceivable(totalReceivable); // Update based on actual response structure
   };
+
+  const fetchTransactions = async () => {
+    try {
+        const response = await axios.get('https://debt-a-way.onrender.com/api/transaction-logs', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        setTransactions(response.data);
+    } catch (error) {
+        console.error('Error fetching transactions:', error);
+    }
+  };
+
 
   const handleAddToWallet = async () => {
     try {
@@ -88,6 +100,31 @@ const Wallet = () => {
             placeholder="Enter amount" 
         />
         <button onClick={handleAddToWallet}>Add to Wallet</button>
+        </div>
+
+
+        <div className="transaction-logs-container">
+                <h3>Transaction Logs</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Direction</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {transactions.map((transaction, index) => (
+                            <tr key={index}>
+                                <td>{new Date(transaction.transactionDate).toLocaleDateString()}</td>
+                                <td>{transaction.transactionType}</td>
+                                <td>{transaction.transactionDirection}</td>
+                                <td>${transaction.amount}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
         </div>
     </div>
   );
