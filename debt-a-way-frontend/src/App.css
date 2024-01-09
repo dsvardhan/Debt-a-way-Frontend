@@ -534,3 +534,35 @@ input[type="email"], input[type="password"], input[type="text"] {
 }
 
 
+/* Existing styles... */
+
+.transaction-logs-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.transaction-logs-container th, 
+.transaction-logs-container td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.transaction-logs-container th {
+  background-color: #f0f0f0;
+}
+
+.transaction-logs-container tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+.credit-amount {
+  color: green;
+}
+
+.debit-amount {
+  color: red;
+}
+
+
