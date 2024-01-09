@@ -185,8 +185,8 @@ const Wallet = () => {
             case 'lend':
               transactionType = isUserInitiator ? 'Lend' : 'Borrow';
               break;
-            case 'borrow':
-              transactionType = isUserInitiator ? 'Borrow' : 'Lend-Payback';
+            case 'pay':
+              transactionType = isUserInitiator ? 'Pay' : 'Lend-Payback';
               break;
             case 'debt-buy':
               transactionType = isUserInitiator ? 'Debt-Sell' : 'Debt-Buy';
