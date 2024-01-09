@@ -91,15 +91,21 @@ const Wallet = () => {
         // Determine the transaction direction and other party based on the userId
         const isUserInitiator = log.userId.toString() === userId;
         const direction = isUserInitiator ? 'debit' : 'credit';
-        const otherParty = isUserInitiator ? log.otherId?.username : log.userId.username;
-
+        let otherParty = 'N/A';
+  
+        if (isUserInitiator && log.otherId) {
+          otherParty = log.otherId.username;
+        } else if (!isUserInitiator) {
+          otherParty = log.userId.username;
+        }
+  
         return {
           ...log,
           direction,
-          otherParty: otherParty || 'N/A' // Show 'N/A' if otherId is null
+          otherParty
         };
       });
-
+  
       setTransactions(formattedTransactions);
     } catch (error) {
       console.error('Error fetching transactions:', error);
