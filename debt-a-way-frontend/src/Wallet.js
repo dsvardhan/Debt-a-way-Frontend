@@ -134,26 +134,73 @@ const Wallet = () => {
   //   }
   // };
   
+  // const fetchTransactions = async () => {
+  //   try {
+  //     const response = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/transaction-logs');
+  
+  //     const formattedTransactions = response.data.map(log => {
+  //       let direction, otherParty;
+  
+  //       if (log.type === 'add') {
+  //         direction = 'credit';
+  //         otherParty = 'N/A'; // No other party involved in wallet addition
+  //       } else {
+  //         const isUserInitiator = log.userId._id === userId;
+  //         direction = isUserInitiator ? 'debit' : 'credit';
+  //         otherParty = isUserInitiator && log.otherId ? log.otherId.username : log.userId.username;
+  //       }
+  
+  //       return {
+  //         ...log,
+  //         direction,
+  //         otherParty
+  //       };
+  //     });
+  
+  //     setTransactions(formattedTransactions);
+  //   } catch (error) {
+  //     console.error('Error fetching transactions:', error);
+  //   }
+  // };
+
   const fetchTransactions = async () => {
     try {
       const response = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/transaction-logs');
   
       const formattedTransactions = response.data.map(log => {
-        let direction, otherParty;
+        let direction, otherParty, transactionType;
+  
+        const isUserInitiator = log.userId._id === userId;
   
         if (log.type === 'add') {
+          transactionType = 'Add';
           direction = 'credit';
-          otherParty = 'N/A'; // No other party involved in wallet addition
+          otherParty = 'N/A';
         } else {
-          const isUserInitiator = log.userId._id === userId;
           direction = isUserInitiator ? 'debit' : 'credit';
           otherParty = isUserInitiator && log.otherId ? log.otherId.username : log.userId.username;
+  
+          // Mapping transaction types based on context
+          switch (log.type) {
+            case 'lend':
+              transactionType = isUserInitiator ? 'Lend' : 'Borrow';
+              break;
+            case 'borrow':
+              transactionType = isUserInitiator ? 'Borrow' : 'Lend-Payback';
+              break;
+            case 'debt-buy':
+              transactionType = isUserInitiator ? 'Debt-Sell' : 'Debt-Buy';
+              break;
+            default:
+              transactionType = log.type.charAt(0).toUpperCase() + log.type.slice(1); // Capitalize the first letter
+          }
         }
   
         return {
           ...log,
           direction,
-          otherParty
+          otherParty,
+          type: transactionType
         };
       });
   
