@@ -138,7 +138,7 @@ const Wallet = () => {
                 <td className={transaction.direction === 'credit' ? 'credit-amount' : 'debit-amount'}>
                   ${transaction.amount}
                 </td>
-                <td>{transaction.otherParty}</td>
+                <td>{transaction.otherPartyId.username}</td>
               </tr>
             ))}
           </tbody>
