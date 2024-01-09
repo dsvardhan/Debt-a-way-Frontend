@@ -83,21 +83,43 @@ const Wallet = () => {
   //   }
   // };
 
+  // const fetchTransactions = async () => {
+  //   try {
+  //     const response = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/transaction-logs');
+      
+  //     const formattedTransactions = response.data.map(log => {
+  //       // Determine the transaction direction and other party based on the userId
+  //       const isUserInitiator = log.userId.toString() === userId;
+  //       const direction = isUserInitiator ? 'debit' : 'credit';
+  //       let otherParty = 'N/A';
+  
+  //       if (isUserInitiator && log.otherId!=null) {
+  //         otherParty = log.otherId.username;
+  //       } else if (!isUserInitiator) {
+  //         otherParty = log.userId.username;
+  //       }
+  
+  //       return {
+  //         ...log,
+  //         direction,
+  //         otherParty
+  //       };
+  //     });
+  
+  //     setTransactions(formattedTransactions);
+  //   } catch (error) {
+  //     console.error('Error fetching transactions:', error);
+  //   }
+  // };
+
   const fetchTransactions = async () => {
     try {
       const response = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/transaction-logs');
-      
-      const formattedTransactions = response.data.map(log => {
-        // Determine the transaction direction and other party based on the userId
-        const isUserInitiator = log.userId.toString() === userId;
-        const direction = isUserInitiator ? 'debit' : 'credit';
-        let otherParty = 'N/A';
   
-        if (isUserInitiator && log.otherId!=null) {
-          otherParty = log.otherId.username;
-        } else if (!isUserInitiator) {
-          otherParty = log.userId.username;
-        }
+      const formattedTransactions = response.data.map(log => {
+        const isUserInitiator = log.userId._id === userId;
+        const direction = isUserInitiator ? 'debit' : 'credit';
+        let otherParty = isUserInitiator && log.otherId ? log.otherId.username : log.userId.username;
   
         return {
           ...log,
@@ -111,7 +133,6 @@ const Wallet = () => {
       console.error('Error fetching transactions:', error);
     }
   };
-
   
 
   return (
