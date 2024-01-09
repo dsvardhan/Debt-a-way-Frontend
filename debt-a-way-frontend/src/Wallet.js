@@ -189,7 +189,7 @@ const Wallet = () => {
               transactionType = isUserInitiator ? 'Pay' : 'Lend-Payback';
               break;
             case 'debt-buy':
-              transactionType = isUserInitiator ? 'Debt-Sell' : 'Debt-Buy';
+              transactionType = isUserInitiator ? 'Debt-Buy' : 'Debt-Sell';
               break;
             default:
               transactionType = log.type.charAt(0).toUpperCase() + log.type.slice(1); // Capitalize the first letter
