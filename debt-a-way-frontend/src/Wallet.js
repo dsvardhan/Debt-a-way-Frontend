@@ -74,14 +74,38 @@ const Wallet = () => {
     }
   };
 
+  // const fetchTransactions = async () => {
+  //   try {
+  //       const response = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/transaction-logs');
+  //       setTransactions(response.data);
+  //   } catch (error) {
+  //       console.error('Error fetching transactions:', error);
+  //   }
+  // };
+
   const fetchTransactions = async () => {
     try {
-        const response = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/transaction-logs');
-        setTransactions(response.data);
+      const response = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/transaction-logs');
+      
+      const formattedTransactions = response.data.map(log => {
+        // Determine the transaction direction and other party based on the userId
+        const isUserInitiator = log.userId.toString() === userId;
+        const direction = isUserInitiator ? 'debit' : 'credit';
+        const otherParty = isUserInitiator ? log.otherId?.username : log.userId.username;
+
+        return {
+          ...log,
+          direction,
+          otherParty: otherParty || 'N/A' // Show 'N/A' if otherId is null
+        };
+      });
+
+      setTransactions(formattedTransactions);
     } catch (error) {
-        console.error('Error fetching transactions:', error);
+      console.error('Error fetching transactions:', error);
     }
   };
+
   
 
   return (
@@ -134,11 +158,11 @@ const Wallet = () => {
               <tr key={index}>
                 <td>{new Date(transaction.date).toLocaleDateString()}</td>
                 <td>{transaction.type}</td>
-                <td>{transaction.direction}</td>
                 <td className={transaction.direction === 'credit' ? 'credit-amount' : 'debit-amount'}>
-                  ${transaction.amount}
+                  {transaction.direction}
                 </td>
-                <td>{transaction.otherId.username}</td>
+                <td>${transaction.amount}</td>
+                <td>{transaction.otherParty}</td>
               </tr>
             ))}
           </tbody>
