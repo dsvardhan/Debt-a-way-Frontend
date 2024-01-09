@@ -117,31 +117,33 @@ const Wallet = () => {
         </div>
 
 
-        <div className="transaction-logs-container">
-          <h3>Transaction Logs</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Type</th>
-                <th>Direction</th>
-                <th>Amount</th>
-                <th>Other Party</th>
+      <div className="transaction-logs-container">
+        <h3>Transaction Logs</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Direction</th>
+              <th>Amount</th>
+              <th>Other Party</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transactions.map((transaction, index) => (
+              <tr key={index}>
+                <td>{new Date(transaction.date).toLocaleDateString()}</td>
+                <td>{transaction.type}</td>
+                <td>{transaction.direction}</td>
+                <td className={transaction.direction === 'credit' ? 'credit-amount' : 'debit-amount'}>
+                  ${transaction.amount}
+                </td>
+                <td>{transaction.otherParty}</td>
               </tr>
-            </thead>
-            <tbody>
-              {transactions.map((transaction, index) => (
-                <tr key={index}>
-                  <td>{new Date(transaction.date).toLocaleDateString()}</td>
-                  <td>{transaction.type}</td>
-                  <td>{transaction.direction}</td>
-                  <td>${transaction.amount}</td>
-                  <td>{transaction.otherParty}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
+      </div>
         
     </div>
   );
