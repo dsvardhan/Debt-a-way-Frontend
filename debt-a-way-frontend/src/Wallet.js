@@ -93,7 +93,7 @@ const Wallet = () => {
         const direction = isUserInitiator ? 'debit' : 'credit';
         let otherParty = 'N/A';
   
-        if (isUserInitiator && log.otherId) {
+        if (isUserInitiator && log.otherId!=null) {
           otherParty = log.otherId.username;
         } else if (!isUserInitiator) {
           otherParty = log.userId.username;
