@@ -44,21 +44,21 @@ const Wallet = () => {
     setDebtsReceivable(totalReceivable); // Update based on actual response structure
   };
 
-  const fetchTransactions = async () => {
-    try {
-        const response = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/transaction-logs');
+  // const fetchTransactions = async () => {
+  //   try {
+  //       const response = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/transaction-logs');
         
-        const relevantTransactions = response.data.filter(log =>
-          (log.transactionType === 'lend' && log.userId === userId) ||
-          (log.transactionType === 'borrow' && log.userId === userId)
-        );
-        setTransactions(relevantTransactions);
+  //       const relevantTransactions = response.data.filter(log =>
+  //         (log.type === 'lend' && log.userId === userId) ||
+  //         (log.type === 'borrow' && log.userId === userId)
+  //       );
+  //       setTransactions(relevantTransactions);
         
-        //setTransactions(response.data);
-    } catch (error) {
-        console.error('Error fetching transactions:', error);
-    }
-  };
+  //       //setTransactions(response.data);
+  //   } catch (error) {
+  //       console.error('Error fetching transactions:', error);
+  //   }
+  // };
 
 
   const handleAddToWallet = async () => {
@@ -71,6 +71,17 @@ const Wallet = () => {
       setAddAmount(''); // Reset the add amount field
     } catch (error) {
       console.error('Error adding money to wallet:', error);
+    }
+  };
+
+  const fetchTransactions = async () => {
+    try {
+        const response = await axios.get('https://debt-a-way.onrender.com/api/transaction-logs', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        setTransactions(response.data);
+    } catch (error) {
+        console.error('Error fetching transactions:', error);
     }
   };
   
@@ -109,30 +120,30 @@ const Wallet = () => {
 
 
         <div className="transaction-logs-container">
-        <h3>Transaction Logs</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Type</th>
-              <th>Direction</th>
-              <th>Amount</th>
-              <th>Other Party</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((transaction, index) => (
-              <tr key={index}>
-                <td>{new Date(transaction.date).toLocaleDateString()}</td>
-                <td>{transaction.type}</td>
-                <td>{transaction.direction}</td>
-                <td>${transaction.amount}</td>
-                <td>{transaction.otherParty}</td>
+          <h3>Transaction Logs</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Direction</th>
+                <th>Amount</th>
+                <th>Other Party</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {transactions.map((transaction, index) => (
+                <tr key={index}>
+                  <td>{new Date(transaction.date).toLocaleDateString()}</td>
+                  <td>{transaction.type}</td>
+                  <td>{transaction.direction}</td>
+                  <td>${transaction.amount}</td>
+                  <td>{transaction.otherParty}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         
     </div>
   );
