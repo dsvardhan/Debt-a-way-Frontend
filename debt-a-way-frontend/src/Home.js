@@ -11,6 +11,7 @@ function Home() {
   const [tradableDebts, setTradableDebts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [lastId, setLastId] = useState(null);
   const [newDebtAmount, setNewDebtAmount] = useState('');
   const [newDebtInterestRate, setNewDebtInterestRate] = useState('');
 // Add more states as needed for other debt details
@@ -73,22 +74,22 @@ function Home() {
   //   }
   // };
 
-  const fetchDebts = async (page = 1) => {
-    try {
-      const limit = 10; // Adjust based on your preference or dynamic selection
-      console.log(`Fetching unfulfilled debts for page ${page} with limit ${limit}`);
-      const unfulfilledDebtsResponse = await axios.get(`https://debt-a-way.onrender.com/api/debt-postings/?page=${page}&limit=${limit}`);
-      console.log('Unfulfilled debts data:', unfulfilledDebtsResponse.data);
-      setUnfulfilledDebts(unfulfilledDebtsResponse.data.data);
-      setTotalPages(unfulfilledDebtsResponse.data.totalPages); // Assumes this data is provided
+  // const fetchDebts = async (page = 1) => {
+  //   try {
+  //     const limit = 10; // Adjust based on your preference or dynamic selection
+  //     console.log(`Fetching unfulfilled debts for page ${page} with limit ${limit}`);
+  //     const unfulfilledDebtsResponse = await axios.get(`https://debt-a-way.onrender.com/api/debt-postings/?page=${page}&limit=${limit}`);
+  //     console.log('Unfulfilled debts data:', unfulfilledDebtsResponse.data);
+  //     setUnfulfilledDebts(unfulfilledDebtsResponse.data.data);
+  //     setTotalPages(unfulfilledDebtsResponse.data.totalPages); // Assumes this data is provided
   
-      const tradableDebtsResponse = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/tradable-debts');
-      console.log('Tradable debts data:', tradableDebtsResponse.data);
-      setTradableDebts(tradableDebtsResponse.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  //     const tradableDebtsResponse = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/tradable-debts');
+  //     console.log('Tradable debts data:', tradableDebtsResponse.data);
+  //     setTradableDebts(tradableDebtsResponse.data);
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
   
   // const handlePrevPage = () => {
   //   if (currentPage > 1) {
@@ -124,6 +125,30 @@ function Home() {
   //   console.log(`Navigating to last page: ${totalPages}`);
   //   setCurrentPage(totalPages);
   // };
+  
+  const fetchDebts = async () => {
+    try {
+      const limit = 10; // Your preferred limit for items per page
+      let url = `https://debt-a-way.onrender.com/api/debt-postings/?limit=${limit}`;
+      if (lastId) {
+        url += `&lastId=${lastId}`; // Append the lastId if available
+      }
+  
+      const response = await axios.get(url);
+      console.log('Unfulfilled debts data:', response.data);
+      
+      setUnfulfilledDebts(response.data.data); // Assuming your backend sends data in a {data: []} structure
+      setTotalPages(response.data.totalPages); // Assuming totalPages is provided for UI pagination controls
+  
+      // Update lastId for the next fetch; grab the last item's ID from the current fetch
+      if (response.data.data.length > 0) {
+        const lastItem = response.data.data[response.data.data.length - 1];
+        setLastId(lastItem._id);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
   
   
 
@@ -259,18 +284,26 @@ function Home() {
               </tr>
             ))}
           </tbody>
+
+          <div className="pagination-controls">
+            <button onClick={() => fetchDebts()} disabled={currentPage >= totalPages}>
+              Load More
+            </button>
+          </div>
         </table>
       ) : (
         <p>No unfulfilled debt postings available.</p>
       )}
 
-    <div className="pagination-controls">
+    {/* <div className="pagination-controls">
         <button onClick={handleFirstPage} disabled={currentPage === 1}>First</button>
         <button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</button>
         <span>Page {currentPage} of {totalPages}</span>
         <button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
         <button onClick={handleLastPage} disabled={currentPage === totalPages}>Last</button>
-      </div>
+      </div> */}
+
+    
 
 
 
