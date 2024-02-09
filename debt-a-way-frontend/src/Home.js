@@ -25,7 +25,7 @@ function Home() {
 
   useEffect(() => {
     fetchWalletBalance();
-    fetchDebts(currentPage);
+    fetchDebts();
     fetchDebtsOwed();
     fetchDebtsReceivable();
   }, [currentPage]);
@@ -137,13 +137,10 @@ function Home() {
       const response = await axios.get(url);
       console.log('Unfulfilled debts data:', response.data);
       
-      setUnfulfilledDebts(response.data.data); // Assuming your backend sends data in a {data: []} structure
-      setTotalPages(response.data.totalPages); // Assuming totalPages is provided for UI pagination controls
-  
-      // Update lastId for the next fetch; grab the last item's ID from the current fetch
       if (response.data.data.length > 0) {
+        setUnfulfilledDebts(prevDebts => [...prevDebts, ...response.data.data]); // Append new debts to existing list
         const lastItem = response.data.data[response.data.data.length - 1];
-        setLastId(lastItem._id);
+        setLastId(lastItem._id); // Update lastId for next fetch
       }
     } catch (error) {
       console.error('Error fetching data:', error);
