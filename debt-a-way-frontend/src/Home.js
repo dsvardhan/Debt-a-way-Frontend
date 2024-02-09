@@ -137,9 +137,10 @@ function Home() {
       const response = await axios.get(url);
       console.log('Unfulfilled debts data:', response.data);
       
-      if (response.data.data.length > 0) {
-        setUnfulfilledDebts(prevDebts => [...prevDebts, ...response.data.data]); // Append new debts to existing list
-        const lastItem = response.data.data[response.data.data.length - 1];
+      const fetchedDebts = response.data.data || [];
+      if (fetchedDebts.length > 0) {
+        setUnfulfilledDebts(prevDebts => [...prevDebts, ...fetchedDebts]);
+        const lastItem = fetchedDebts[fetchedDebts.length - 1];
         setLastId(lastItem._id); // Update lastId for next fetch
       }
     } catch (error) {
