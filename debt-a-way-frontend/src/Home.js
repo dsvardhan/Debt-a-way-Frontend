@@ -106,24 +106,24 @@ function Home() {
   //   setCurrentPage(totalPages);
   // };
 
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      console.log(`Navigating to previous page: ${currentPage - 1}`);
-      setCurrentPage(currentPage - 1);
-    }
-  };
+  // const handlePrevPage = () => {
+  //   if (currentPage > 1) {
+  //     console.log(`Navigating to previous page: ${currentPage - 1}`);
+  //     setCurrentPage(currentPage - 1);
+  //   }
+  // };
   
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      console.log(`Navigating to next page: ${currentPage + 1}`);
-      setCurrentPage(currentPage + 1);
-    }
-  };
+  // const handleNextPage = () => {
+  //   if (currentPage < totalPages) {
+  //     console.log(`Navigating to next page: ${currentPage + 1}`);
+  //     setCurrentPage(currentPage + 1);
+  //   }
+  // };
   
-  const handleLastPage = () => {
-    console.log(`Navigating to last page: ${totalPages}`);
-    setCurrentPage(totalPages);
-  };
+  // const handleLastPage = () => {
+  //   console.log(`Navigating to last page: ${totalPages}`);
+  //   setCurrentPage(totalPages);
+  // };
   
   
 
@@ -137,7 +137,7 @@ function Home() {
   
       await axios.post('https://debt-a-way.onrender.com/api/debt-postings', payload);
 
-      fetchDebts();
+      fetchDebts(currentPage);
 
       setNewDebtAmount('');
       setNewDebtInterestRate('');
@@ -188,7 +188,11 @@ function Home() {
   };
   
   
-  
+  // Pagination control handlers
+  const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  const handleFirstPage = () => setCurrentPage(1);
+  const handleLastPage = () => setCurrentPage(totalPages);
   
   
 
@@ -260,13 +264,13 @@ function Home() {
         <p>No unfulfilled debt postings available.</p>
       )}
 
-<div className="pagination-controls">
-  <button onClick={handlePrevPage} disabled={currentPage <= 1}>Previous</button>
-  <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>First Page</button>
-  <span>Page {currentPage} of {totalPages}</span>
-  <button onClick={handleNextPage} disabled={currentPage >= totalPages}>Next</button>
-  <button onClick={handleLastPage} disabled={currentPage === totalPages}>Last Page</button>
-</div>
+    <div className="pagination-controls">
+        <button onClick={handleFirstPage} disabled={currentPage === 1}>First</button>
+        <button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</button>
+        <span>Page {currentPage} of {totalPages}</span>
+        <button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
+        <button onClick={handleLastPage} disabled={currentPage === totalPages}>Last</button>
+      </div>
 
 
 
