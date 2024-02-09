@@ -233,7 +233,7 @@ function Home() {
               <tbody>
                 {tradableDebts.map(debt => (
                   <tr key={debt._id}>
-                    <td>{debt.borrower.username}</td>
+                    <td>{debt._id}</td>
                     <td>{debt.amount}</td>
                     <td>{debt.interestRate}%</td>
                     <td>{debt.tradePrice}</td>
