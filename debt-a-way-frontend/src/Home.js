@@ -59,35 +59,72 @@ function Home() {
   //   }
   // };
 
+  // const fetchDebts = async (page = 1) => {
+  //   try {
+  //     const limit = 10; // Adjust based on your preference or dynamic selection
+  //     const unfulfilledDebtsResponse = await axios.get(`https://debt-a-way.onrender.com/api/debt-postings/?page=${page}&limit=${limit}`);
+  //     setUnfulfilledDebts(unfulfilledDebtsResponse.data.data);
+  //     setTotalPages(unfulfilledDebtsResponse.data.totalPages); // Assumes this data is provided
+
+  //     const tradableDebtsResponse = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/tradable-debts');
+  //     setTradableDebts(tradableDebtsResponse.data);
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
+
   const fetchDebts = async (page = 1) => {
     try {
       const limit = 10; // Adjust based on your preference or dynamic selection
+      console.log(`Fetching unfulfilled debts for page ${page} with limit ${limit}`);
       const unfulfilledDebtsResponse = await axios.get(`https://debt-a-way.onrender.com/api/debt-postings/?page=${page}&limit=${limit}`);
+      console.log('Unfulfilled debts data:', unfulfilledDebtsResponse.data);
       setUnfulfilledDebts(unfulfilledDebtsResponse.data.data);
       setTotalPages(unfulfilledDebtsResponse.data.totalPages); // Assumes this data is provided
-
+  
       const tradableDebtsResponse = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/tradable-debts');
+      console.log('Tradable debts data:', tradableDebtsResponse.data);
       setTradableDebts(tradableDebtsResponse.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
+  
+  // const handlePrevPage = () => {
+  //   if (currentPage > 1) {
+  //     setCurrentPage(currentPage - 1);
+  //   }
+  // };
+
+  // const handleNextPage = () => {
+  //   if (currentPage < totalPages) {
+  //     setCurrentPage(currentPage + 1);
+  //   }
+  // };
+
+  // const handleLastPage = () => {
+  //   setCurrentPage(totalPages);
+  // };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
+      console.log(`Navigating to previous page: ${currentPage - 1}`);
       setCurrentPage(currentPage - 1);
     }
   };
-
+  
   const handleNextPage = () => {
     if (currentPage < totalPages) {
+      console.log(`Navigating to next page: ${currentPage + 1}`);
       setCurrentPage(currentPage + 1);
     }
   };
-
+  
   const handleLastPage = () => {
+    console.log(`Navigating to last page: ${totalPages}`);
     setCurrentPage(totalPages);
   };
+  
   
 
   const handlePostDebt = async () => {
