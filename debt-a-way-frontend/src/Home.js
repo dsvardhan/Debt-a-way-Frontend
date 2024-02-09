@@ -183,7 +183,6 @@ function Home() {
 
     <div className="full-width-container">
       <h3 className="section-heading">Unfulfilled Debt Postings</h3>
-      {unfulfilledDebts.length > 0 ? (
         <table className="table">
           <thead>
             <tr>
@@ -206,9 +205,7 @@ function Home() {
             ))}
           </tbody>
         </table>
-      ) : (
-        <p>No unfulfilled debt postings available.</p>
-      )}
+      
 
           <div className="pagination-controls">
             <button onClick={() => fetchDebts()} disabled={currentPage >= totalPages}>
