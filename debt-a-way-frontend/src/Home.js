@@ -196,7 +196,7 @@ function Home() {
           <tbody>
             {unfulfilledDebts.map(debt => (
               <tr key={debt._id}>
-                <td>{debt.borrower.username}</td>
+                <td>{debt.borrower}</td>
                 <td>{debt.amount}</td>
                 <td>{debt.interestRate}%</td>
                 <td>
@@ -233,7 +233,7 @@ function Home() {
               <tbody>
                 {tradableDebts.map(debt => (
                   <tr key={debt._id}>
-                    <td>{debt._id}</td>
+                    <td>{debt.borrower.username}</td>
                     <td>{debt.amount}</td>
                     <td>{debt.interestRate}%</td>
                     <td>{debt.tradePrice}</td>
