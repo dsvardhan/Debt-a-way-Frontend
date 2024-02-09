@@ -27,7 +27,7 @@ function Home() {
     fetchDebts(currentPage);
     fetchDebtsOwed();
     fetchDebtsReceivable();
-  }, []);
+  }, [currentPage]);
 
    // Replace with actual backend URLs
    const fetchWalletBalance = async () => {
