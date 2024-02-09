@@ -9,7 +9,8 @@ function Home() {
   const [debtsReceivable, setDebtsReceivable] = useState(0);
   const [unfulfilledDebts, setUnfulfilledDebts] = useState([]);
   const [tradableDebts, setTradableDebts] = useState([]);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [newDebtAmount, setNewDebtAmount] = useState('');
   const [newDebtInterestRate, setNewDebtInterestRate] = useState('');
 // Add more states as needed for other debt details
@@ -23,7 +24,7 @@ function Home() {
 
   useEffect(() => {
     fetchWalletBalance();
-    fetchDebts();
+    fetchDebts(currentPage);
     fetchDebtsOwed();
     fetchDebtsReceivable();
   }, []);
@@ -46,15 +47,41 @@ function Home() {
     setDebtsReceivable(totalReceivable); // Update based on actual response structure
   };
 
-  const fetchDebts = async () => {
+  // const fetchDebts = async () => {
+  //   try {
+  //     const unfulfilledDebtsResponse = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/');
+  //     setUnfulfilledDebts(unfulfilledDebtsResponse.data);
+
+  //     const tradableDebtsResponse = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/tradable-debts');
+  //     setTradableDebts(tradableDebtsResponse.data);
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
+
+  const fetchDebts = async (page = 1) => {
     try {
-      const unfulfilledDebtsResponse = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/');
-      setUnfulfilledDebts(unfulfilledDebtsResponse.data);
+      const limit = 10; // Adjust based on your preference or dynamic selection
+      const unfulfilledDebtsResponse = await axios.get(`https://debt-a-way.onrender.com/api/debt-postings/?page=${page}&limit=${limit}`);
+      setUnfulfilledDebts(unfulfilledDebtsResponse.data.data);
+      setTotalPages(unfulfilledDebtsResponse.data.totalPages); // Assumes this data is provided
 
       const tradableDebtsResponse = await axios.get('https://debt-a-way.onrender.com/api/debt-postings/tradable-debts');
       setTradableDebts(tradableDebtsResponse.data);
     } catch (error) {
       console.error('Error fetching data:', error);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
     }
   };
 
@@ -190,6 +217,13 @@ function Home() {
       ) : (
         <p>No unfulfilled debt postings available.</p>
       )}
+
+      <div className="pagination-controls">
+        <button onClick={handlePrevPage} disabled={currentPage <= 1}>Previous</button>
+        <span>Page {currentPage} of {totalPages}</span>
+        <button onClick={handleNextPage} disabled={currentPage >= totalPages}>Next</button>
+      </div>
+
 
     </div>
 
