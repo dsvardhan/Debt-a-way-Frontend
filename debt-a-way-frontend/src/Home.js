@@ -85,6 +85,11 @@ function Home() {
     }
   };
 
+  const handleLastPage = () => {
+    setCurrentPage(totalPages);
+  };
+  
+
   const handlePostDebt = async () => {
     try {
       const payload = {
@@ -218,11 +223,14 @@ function Home() {
         <p>No unfulfilled debt postings available.</p>
       )}
 
-      <div className="pagination-controls">
-        <button onClick={handlePrevPage} disabled={currentPage <= 1}>Previous</button>
-        <span>Page {currentPage} of {totalPages}</span>
-        <button onClick={handleNextPage} disabled={currentPage >= totalPages}>Next</button>
-      </div>
+<div className="pagination-controls">
+  <button onClick={handlePrevPage} disabled={currentPage <= 1}>Previous</button>
+  <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>First Page</button>
+  <span>Page {currentPage} of {totalPages}</span>
+  <button onClick={handleNextPage} disabled={currentPage >= totalPages}>Next</button>
+  <button onClick={handleLastPage} disabled={currentPage === totalPages}>Last Page</button>
+</div>
+
 
 
     </div>
